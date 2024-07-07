@@ -2,7 +2,7 @@ import QrScanner from "./qr-scanner.min.js";
 const video = document.getElementById("video");
 const kirim = document.querySelector(".kirim");
 
-function basi(operation, res, waw, callback) {
+function basi(operation, res, req, callback) {
     Swal.fire({
         title: "SUDAH PERNAH AMBIL",
         icon: "error",
@@ -11,14 +11,14 @@ function basi(operation, res, waw, callback) {
         denyButtonColor: "#f8bb86",
     }).then((r) => {
         if (r.isDenied) {
-            callback(operation, res, waw);
+            callback(operation, res, req);
         } else {
             location.reload();
         }
     });
 }
 
-function swalExec(operation, res, waw) {
+function swalExec(operation, res, req) {
     const apt = res["data"]["isExpKonsumAppt"];
     const mc = res["data"]["isExpKonsumMain"];
     const ds = res["data"]["isExpKonsumDessert"];
@@ -48,10 +48,10 @@ function swalExec(operation, res, waw) {
                 }).then(async (result) => {
                     let url = "https://pttamenyala.vercel.app/api/" + operation;
                     if (result.isDenied) {
-                        if (souvenir) {
-                            basi(operation, res, waw, swalExec);
+                        if (souvenir && operation == "done") {
+                            basi(operation, res, req, swalExec);
                         } else {
-                            url = url + "/souvenir?code=" + waw.data;
+                            url = url + "/souvenir?code=" + req;
                             let data = await fetch(url);
                             data = await data.json();
                             let final = data["data"]["data"]["isExpSouvenir"];
@@ -60,7 +60,19 @@ function swalExec(operation, res, waw) {
                                     location.reload();
                                 });
                             } else {
-                                Swal.fire("Coba Lagi", "", "error");
+                                if (operation == "undone") {
+                                    Swal.fire("SUKSES", "", "success").then(
+                                        () => {
+                                            location.reload();
+                                        }
+                                    );
+                                } else {
+                                    Swal.fire("Coba Lagi", "", "error").then(
+                                        () => {
+                                            location.reload();
+                                        }
+                                    );
+                                }
                             }
                         }
                     } else if (result.isDismissed) {
@@ -86,13 +98,10 @@ function swalExec(operation, res, waw) {
                             confirmButtonColor: "#f8bb86",
                         }).then(async (result) => {
                             if (result.isDismissed) {
-                                if (apt) {
-                                    basi(operation, res, waw, swalExec);
+                                if (apt && operation == "done") {
+                                    basi(operation, res, req, swalExec);
                                 } else {
-                                    url =
-                                        url +
-                                        "/konsum/appetizer?code=" +
-                                        waw.data;
+                                    url = url + "/konsum/appetizer?code=" + req;
                                     let data = await fetch(url);
                                     data = await data.json();
                                     let final =
@@ -104,21 +113,31 @@ function swalExec(operation, res, waw) {
                                             }
                                         );
                                     } else {
-                                        Swal.fire(
-                                            "Coba Lagi",
-                                            "",
-                                            "error"
-                                        ).then(() => {
-                                            location.reload();
-                                        });
+                                        if (operation == "undone") {
+                                            Swal.fire(
+                                                "SUKSES",
+                                                "",
+                                                "success"
+                                            ).then(() => {
+                                                location.reload();
+                                            });
+                                        } else {
+                                            Swal.fire(
+                                                "Coba Lagi",
+                                                "",
+                                                "error"
+                                            ).then(() => {
+                                                location.reload();
+                                            });
+                                        }
                                     }
                                 }
                                 // location.reload();
                             } else if (result.isDenied) {
-                                if (mc) {
-                                    basi(operation, res, waw, swalExec);
+                                if (mc && operation == "done") {
+                                    basi(operation, res, req, swalExec);
                                 } else {
-                                    url = url + "/konsum/main?code=" + waw.data;
+                                    url = url + "/konsum/main?code=" + req;
                                     let data = await fetch(url);
                                     data = await data.json();
                                     let final =
@@ -130,24 +149,31 @@ function swalExec(operation, res, waw) {
                                             }
                                         );
                                     } else {
-                                        Swal.fire(
-                                            "Coba Lagi",
-                                            "",
-                                            "error"
-                                        ).then(() => {
-                                            location.reload();
-                                        });
+                                        if (operation == "undone") {
+                                            Swal.fire(
+                                                "SUKSES",
+                                                "",
+                                                "success"
+                                            ).then(() => {
+                                                location.reload();
+                                            });
+                                        } else {
+                                            Swal.fire(
+                                                "Coba Lagi",
+                                                "",
+                                                "error"
+                                            ).then(() => {
+                                                location.reload();
+                                            });
+                                        }
                                     }
                                 }
                                 // location.reload();
                             } else {
-                                if (ds) {
-                                    basi(operation, res, waw, swalExec);
+                                if (ds && operation == "done") {
+                                    basi(operation, res, req, swalExec);
                                 } else {
-                                    url =
-                                        url +
-                                        "/konsum/dessert?code=" +
-                                        waw.data;
+                                    url = url + "/konsum/dessert?code=" + req;
                                     let data = await fetch(url);
                                     data = await data.json();
                                     let final =
@@ -161,13 +187,23 @@ function swalExec(operation, res, waw) {
                                             }
                                         );
                                     } else {
-                                        Swal.fire(
-                                            "Coba Lagi",
-                                            "",
-                                            "error"
-                                        ).then(() => {
-                                            location.reload();
-                                        });
+                                        if (operation == "undone") {
+                                            Swal.fire(
+                                                "SUKSES",
+                                                "",
+                                                "success"
+                                            ).then(() => {
+                                                location.reload();
+                                            });
+                                        } else {
+                                            Swal.fire(
+                                                "Coba Lagi",
+                                                "",
+                                                "error"
+                                            ).then(() => {
+                                                location.reload();
+                                            });
+                                        }
                                     }
                                 }
                                 // location.reload();
@@ -185,15 +221,23 @@ function swalExec(operation, res, waw) {
 
 const qrScanner = new QrScanner(
     video,
-    async (waw) => {
+    async (req) => {
         // await result.preventDefault();
         qrScanner.stop();
         document.querySelector(".hilang").classList.remove("hilang");
         let res = await fetch(
-            "https://pttamenyala.vercel.app/api/check?code=" + waw.data
+            "https://pttamenyala.vercel.app/api/check?code=" + req.data
         );
         res = await res.json();
-        swalExec("done", res, waw);
+        if (res.data) {
+            swalExec("done", res, req.data);
+        } else {
+            Swal.fire({
+                title: "DATA TIDAK ADA",
+                text: req.data,
+                icon: "error",
+            });
+        }
         // const apt = res["data"]["isExpKonsumAppt"];
         // const mc = res["data"]["isExpKonsumMain"];
         // const ds = res["data"]["isExpKonsumDessert"];
@@ -211,4 +255,111 @@ kirim.addEventListener("click", () => {
     document.querySelector(".video").classList.remove("video");
     video.classList.add("muncul");
     qrScanner.start();
+});
+
+// #############################################################################################
+const searchEmailButton = document.querySelector(".cari-email");
+const input = document.getElementById("imel");
+const emailFilter = async (content) => {
+    let url = "https://pttamenyala.vercel.app/api/check?email=" + content;
+    let data = await fetch(url);
+    data = await data.json();
+    if (data.data.length === 0) {
+        alert("Data tidak ditemukan/typo dalam penulisan");
+        location.reload();
+    }
+    data = data.data[0].code;
+    url = "https://pttamenyala.vercel.app/api/check?code=" + data;
+    let finalData = await fetch(url);
+    finalData = await finalData.json();
+    swalExec("done", finalData, data);
+};
+searchEmailButton.addEventListener("click", () => {
+    searchEmailButton.textContent = "Tunggu Sek";
+    input.style.display = "none";
+    emailFilter(input.value);
+});
+
+input.addEventListener("keypress", function (event) {
+    // If the user presses the "Enter" key on the keyboard
+    if (event.key === "Enter") {
+        // Cancel the default action, if needed
+        event.preventDefault();
+        // Trigger the button element with a click
+        document.querySelector(".cari-email").click();
+    }
+});
+
+// ################################################################################
+// UNDONE
+// ################################################################################
+
+const undoneEmailFilter = async (content) => {
+    let url = "https://pttamenyala.vercel.app/api/check?email=" + content;
+    let data = await fetch(url);
+    data = await data.json();
+    if (data.data.length === 0) {
+        alert("Data tidak ditemukan/typo dalam penulisan");
+        location.reload();
+    }
+    data = data.data[0].code;
+    url = "https://pttamenyala.vercel.app/api/check?code=" + data;
+    let finalData = await fetch(url);
+    finalData = await finalData.json();
+    swalExec("undone", finalData, data);
+};
+
+const undoneButton = document.querySelector(".login");
+undoneButton.addEventListener("click", async () => {
+    const { value: formValues } = await Swal.fire({
+        title: "Input Username & Password",
+        html:
+            '<input id="swal-input1" class="swal2-input" placeholder="Username">' +
+            '<input id="swal-input2" class="swal2-input" placeholder="Password" autocomplete="off" type="password">',
+        focusConfirm: false,
+        preConfirm: () => {
+            return [
+                document.getElementById("swal-input1").value,
+                document.getElementById("swal-input2").value,
+            ];
+        },
+    });
+    if (
+        formValues &&
+        formValues[0] == "admin" &&
+        formValues[1] == atob("YWRtaW4xMjM=")
+    ) {
+        document.querySelector(".wuish").innerHTML = `
+        <div class="card">
+                            <div class="card-body needs-validation">
+                                <style>
+                                    .tengah {
+                                        text-align: center;
+                                    }
+                                </style>
+                                <div class="mb-3 tengah">
+                                    <label class="form-label">Undone EMAIL</label>
+                                    <input type="text" class="form-control needs-validation undone-imel" id="imel" required="" value="" placeholder="e.g azusa@sma3jogja.sch.id">
+                                    <div class="invalid-feedback">Isi input!</div>
+                                </div>
+                                <div class="mb-3 tengah">
+                                    <button type="submit" class="undone btn btn-primary bg-gradient waves-effect waves-light me-1">Scan</button>
+                                </div>
+                            </div>
+                        </div>`;
+        const undoneField = document.querySelector(".undone-imel");
+        document.querySelector(".undone").addEventListener("click", () => {
+            document.querySelector(".undone").textContent = "Tunggu Sek";
+            document.querySelector(".undone").disable = true;
+            undoneField.style.display = "none";
+            undoneEmailFilter(undoneField.value);
+        });
+    }
+    if (
+        formValues &&
+        formValues[0] != "admin" &&
+        formValues[1] != atob("YWRtaW4xMjM=")
+    ) {
+        alert("SALAHHHH");
+    }
 });

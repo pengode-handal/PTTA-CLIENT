@@ -4,10 +4,10 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link
-            href="
-https://cdn.jsdelivr.net/npm/sweetalert2@11.12.0/dist/sweetalert2.min.css
-"
-            rel="stylesheet" />
+        href="
+        https://cdn.jsdelivr.net/npm/sweetalert2@11.12.0/dist/sweetalert2.min.css
+        "
+        rel="stylesheet" />
         <link rel="stylesheet" href="style.css" />
         <title>PTTA 79 QR Scanner</title>
     </head>
@@ -18,6 +18,7 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.12.0/dist/sweetalert2.min.css
                 <div class="container-fluid">
                     <div class="row d-flex justify-content-center">
                         <div class="">
+                            <!-- ######## START OF QR SCANNER ######## -->
                             <div class="card">
                                 <div class="card-body needs-validation">
                                     <style>
@@ -38,10 +39,33 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.12.0/dist/sweetalert2.min.css
                                         >
                                 </div>
                             </div>
-                            <div class="row animeh"></div>
 
 
                         </div>
+                        <!-- ######## END OF QR SCANNER ######## -->
+
+                        <!-- ######## START OF SCANNER FROM EMAIL ######## -->
+                        <div class="card">
+                            <div class="card-body needs-validation">
+                                <style>
+                                    .tengah {
+                                        text-align: center;
+                                    }
+                                </style>
+                                <div class="mb-3 tengah">
+                                    <label class="form-label">EMAIL</label>
+                                    <input type="text" class="form-control needs-validation input-imel" id="imel" required="" value="" placeholder="e.g azusa@sma3jogja.sch.id">
+                                    <div class="invalid-feedback">Isi input!</div>
+                                </div>
+                                <div class="mb-3 tengah">
+                                    <button type="submit" class="cari-email btn btn-primary bg-gradient waves-effect waves-light me-1">Scan</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-3 tengah">
+                            <button class="login btn btn-primary bg-gradient waves-effect waves-light me-1">UNDONE</button>
+                        </div>
+                        <div class="wuish"></div>
                     </div>
                 </div>
             </div>
